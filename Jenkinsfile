@@ -3,7 +3,6 @@ pipeline {
 
     stages {
         /*
-
         stage('Build') {
             agent {
                 docker {
@@ -59,8 +58,10 @@ pipeline {
                         sh '''
                             npm install serve
                             node_modules/.bin/serve -s build &
-                            sleep 10
-                            npx playwright test  --reporter=html
+                            SERVE_PID=$!
+                            sleep 15
+                            npx playwright test --reporter=html
+                            kill $SERVE_PID
                         '''
                     }
 
